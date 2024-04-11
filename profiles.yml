@@ -1,0 +1,13 @@
+snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: AQ87333
+      user: edwardlancelorilla
+      password: eDwArD!@#1
+      role: ACCOUNTADMIN
+      warehouse: COMPUTE_WH
+      database: EDCS
+      schema: EDCS.PUBLIC
+      threads: 4

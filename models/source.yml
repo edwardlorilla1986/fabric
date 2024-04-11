@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: snowflake_raw_data
+    database: EDCS
+    schema: DBT_ELORILLA_IKAROS
+    tables:
+      - name: IKAROS
+        description: "This table/view contains detailed logs of user activity and page views."

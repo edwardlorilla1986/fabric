@@ -1,0 +1,18 @@
+name: "edcs"
+version: "1.0.0"
+config-version: 2
+
+profile: "default"
+source-paths: ["models"]
+data-paths: ["data"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+seeds:
+  edcs: 
+    ikaros:
+      +schema: "EDCS.PUBLIC"
+      +column_types:
+        timestamp: "timestamp"
+        user_id: "varchar(255)"
+        anonymous_id: "varchar(255)"
+      +quote_columns: false 
