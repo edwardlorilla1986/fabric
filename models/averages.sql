@@ -1,29 +1,19 @@
 with
-    unique_users as (select * from {{ ref("unique_users") }}),
-    unique_anonymous as (select * from {{ ref("unique_anonymous") }}),
-    total_page_views as (select * from {{ ref("total_page_views") }}),
-    session_counts as (select * from {{ ref("session_counts") }}),
     computed_metrics as (
         select
-            (select unique_user_count from unique_users) + (
-                select unique_anonymous_count from unique_anonymous
-            ) as total_unique_visitors,
-            (select page_view_count from total_page_views) as total_page_views,
-            (select session_count from session_counts) as total_sessions,
-            (select page_view_count from total_page_views) / (
-                select total_unique_visitors from computed_metrics_subquery
+            (uu.unique_user_count + ua.unique_anonymous_count) as total_unique_visitors,
+            tpv.page_view_count as total_page_views,
+            sc.session_count as total_sessions,
+            tpv.page_view_count / nullif(
+                (uu.unique_user_count + ua.unique_anonymous_count), 0
             ) as average_pageviews_per_visitor,
-            (select session_count from session_counts) / (
-                select total_unique_visitors from computed_metrics_subquery
+            sc.session_count / nullif(
+                (uu.unique_user_count + ua.unique_anonymous_count), 0
             ) as average_sessions_per_visitor
-        from
-            (
-                select
-                    (select unique_user_count from unique_users) + (
-                        select unique_anonymous_count from unique_anonymous
-                    ) as total_unique_visitors
-                from dual
-            ) as computed_metrics_subquery
+        from {{ ref("unique_users") }} as uu
+        join {{ ref("unique_anonymous") }} as ua on 1 = 1
+        join {{ ref("total_page_views") }} as tpv on 1 = 1
+        join {{ ref("session_counts") }} as sc on 1 = 1
     )
 select
     total_unique_visitors,
