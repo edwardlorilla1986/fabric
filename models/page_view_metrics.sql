@@ -1,7 +1,7 @@
 with
     page_views as (
         select
-            timestamp::timestamp as event_timestamp,  -- Adjust 'timestamp' to your actual column name
+            timestamp::timestamp as event_timestamp, 
             case
                 when user_id = '' or user_id is null
                 then null
